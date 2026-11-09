@@ -12,3 +12,4 @@ C:\Users\Fyrre\Documents\Kodehode\apiPractice2\obj\Debug\net10.0\refint\apiPract
 C:\Users\Fyrre\Documents\Kodehode\apiPractice2\obj\Debug\net10.0\apiPractice2.pdb
 C:\Users\Fyrre\Documents\Kodehode\apiPractice2\obj\Debug\net10.0\apiPractice2.genruntimeconfig.cache
 C:\Users\Fyrre\Documents\Kodehode\apiPractice2\obj\Debug\net10.0\ref\apiPractice2.dll
+C:\Users\Fyrre\Documents\Kodehode\apiPractice2\obj\Debug\net10.0\apiPractice2.sourcelink.json

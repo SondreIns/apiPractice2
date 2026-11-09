@@ -4,7 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("end");
+        LogicHandler handler = new LogicHandler();
+        handler.Begin();
         Console.ReadKey();
     }
 }
