@@ -6,10 +6,12 @@ namespace apiPractice2;
 
 public class LogicHandler
 {
+    //[root.name, root.gender, root.culture, root.born, root.died, root.father, root.mother, root.spouse];
     private string[] _houseEntries = ["Name: ", "Region: ", "Words: ", "Current ruler: "];
-    private string [] _characterEntries = [];
+    private string [] _characterEntries = ["Name: ", "Gender: ", "Culture: ", "Born: ", "Died: ", "Father: ", "Mother: ", "Spouse: "];
     private ConsoleColor[] _houseCols = [ConsoleColor.Red, ConsoleColor.Green, ConsoleColor.Yellow, ConsoleColor.Cyan];
-    private ConsoleColor[] _charCols = [];
+    private ConsoleColor[] _charCols = [ConsoleColor.Red, ConsoleColor.Green, ConsoleColor.Yellow, ConsoleColor.Magenta, 
+                                        ConsoleColor.Magenta, ConsoleColor.Cyan, ConsoleColor.Cyan, ConsoleColor.DarkRed];
 
     public async void Begin()
     {
