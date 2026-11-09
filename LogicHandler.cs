@@ -1,3 +1,4 @@
+using System.Text.Json;
 using apiPractice2.DataHandler;
 using ConsoleHelper;
 
@@ -5,6 +6,11 @@ namespace apiPractice2;
 
 public class LogicHandler
 {
+    private string[] _houseEntries = ["Name: ", "Region: ", "Words: ", "Current ruler: "];
+    private string [] _characterEntries = [];
+    private ConsoleColor[] _houseCols = [ConsoleColor.Red, ConsoleColor.Green, ConsoleColor.Yellow, ConsoleColor.Cyan];
+    private ConsoleColor[] _charCols = [];
+
     public async void Begin()
     {
         ConsoleWriter.WriteLine("Houses or characters?:", ConsoleColor.Yellow);
@@ -34,9 +40,32 @@ public class LogicHandler
 
         IApiDataReader dataReader = new ApiDataReader();
         string json = await dataReader.Read(baseAdress, requestUri);
-
+        string[] data = houses ? ParseHouseData(json) : ParseCharacterData(json);
+        string[] entries = houses ? _houseEntries : _characterEntries;
+        ConsoleColor[] cols = houses ? _houseCols : _charCols;
         Console.WriteLine("Waiting for data..");
-        Console.WriteLine(json);
-
+        if(data != null)
+        {
+            for(int i = 0; i < data.Length; i++)
+            {
+                ConsoleWriter.Write(entries[i], cols[i]);
+                Console.Write(data[i] == string.Empty ? "not found.\n" : data[i] + "\n");
+            }
+        }
     }
+    
+    private string[] ParseHouseData(string input)
+    {
+        HouseRoot? root = JsonSerializer.Deserialize<HouseRoot>(input);
+        if(root != null) return [root.name, root.region, root.words, root.currentLord];
+        else return ["nameerror", "regionerror", "wordserror", "currentLorderror"];
+    }
+
+    private string[] ParseCharacterData(string input)
+    {
+        CharacterRoot? root = JsonSerializer.Deserialize<CharacterRoot>(input);
+        if(root != null) return [root.name, root.gender, root.culture, root.born, root.died, root.father, root.mother, root.spouse];
+        else return ["nameerror", "gendererror", "cultureerror", "bornerror", "diederror", "fathererror", "mothererror", "spouseerror"];
+    }
+    
 }
