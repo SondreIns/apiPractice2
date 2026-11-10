@@ -7,15 +7,16 @@ namespace apiPractice2;
 public class LogicHandler
 {
     //[root.name, root.gender, root.culture, root.born, root.died, root.father, root.mother, root.spouse];
-    private string[] _houseEntries = ["Name: ", "Region: ", "Words: ", "Current ruler: "];
-    private string[] _characterEntries = ["Name: ", "Gender: ", "Culture: ", "Born: ", "Died: ", "Father: ", "Mother: ", "Spouse: "];
-    private ConsoleColor[] _houseCols = [ConsoleColor.Red, ConsoleColor.Green, ConsoleColor.Yellow, ConsoleColor.Cyan];
-    private ConsoleColor[] _charCols = [ConsoleColor.Red, ConsoleColor.Green, ConsoleColor.Yellow, ConsoleColor.Magenta,
+    private readonly string[] _houseEntries = ["Name: ", "Region: ", "Words: ", "Current ruler: "];
+    private readonly string[] _characterEntries = ["Name: ", "Gender: ", "Culture: ", "Born: ", "Died: ", "Father: ", "Mother: ", "Spouse: "];
+    private readonly ConsoleColor[] _houseCols = [ConsoleColor.Red, ConsoleColor.Green, ConsoleColor.Yellow, ConsoleColor.Cyan];
+    private readonly ConsoleColor[] _charCols = [ConsoleColor.Red, ConsoleColor.Green, ConsoleColor.Yellow, ConsoleColor.Magenta,
                                         ConsoleColor.Magenta, ConsoleColor.Cyan, ConsoleColor.Cyan, ConsoleColor.DarkRed];
 
-    private string _baseAdress = "https://anapioficeandfire.com/api/";
-    private string _housesUri = "houses/";
-    private string _charactersUri = "characters/";
+    private const string BASE_ADRESS = "https://anapioficeandfire.com/api/";
+    private const string HOUSES_URI = "houses/";
+    private const string CHARACTERS_URI = "characters/";
+    private const int BASEADRESS_LENGTH = 34;
 
 
     public async void Begin()
@@ -39,11 +40,11 @@ public class LogicHandler
     {
         Random rand = new Random();
         string num = houses ? rand.Next(1, 445).ToString() : rand.Next(1, 2135).ToString();
-        string requestUri = houses ? _housesUri + num : _charactersUri + num;
+        string requestUri = houses ? HOUSES_URI + num : CHARACTERS_URI + num;
 
 
         IApiDataReader dataReader = new ApiDataReader();
-        string json = await dataReader.Read(_baseAdress, requestUri);
+        string json = await dataReader.Read(BASE_ADRESS, requestUri);
         string[] data = houses ? await ParseHouseData(json) : await ParseCharacterData(json);
         string[] entries = houses ? _houseEntries : _characterEntries;
         ConsoleColor[] cols = houses ? _houseCols : _charCols;
@@ -80,13 +81,13 @@ public class LogicHandler
     {
         IApiDataReader dataReader = new ApiDataReader();
         string link = string.Empty;
-        for (int i = 34; i < character.Length; i++)
+        for (int i = BASEADRESS_LENGTH; i < character.Length; i++)
         {
             link += character[i];
         }
         if(link == string.Empty) return link;
-        string spouse = await dataReader.Read(_baseAdress, link);
-        CharacterRoot? root = JsonSerializer.Deserialize<CharacterRoot>(spouse);
+        string json = await dataReader.Read(BASE_ADRESS, link);
+        CharacterRoot? root = JsonSerializer.Deserialize<CharacterRoot>(json);
         if (root != null) return root.name;
         return string.Empty;
     }
